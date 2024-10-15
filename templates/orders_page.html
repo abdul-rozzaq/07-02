@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block action %}
+
+<button type="button" class="btn btn-primary" data-mdb-ripple-init data-mdb-modal-init
+    data-mdb-target="#add-order">Buyurtma qo'shish</button>
+
+{% endblock action %}
+
+{% block content %}
+
+<div class="container mt-3">
+    <h2 class="mb-3">Buyurtmalar</h2>
+
+    <table class="table align-middle mb-0 bg-white">
+        <thead class="bg-light">
+            <tr>
+                <th>ID</th>
+                <th>Mahsulot</th>
+                <th>Narxi</th>
+                <th>Soni</th>
+                <th>Umumiy narx</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+
+            <tr class="fw-bold">
+                <td>
+                    <p class="mb-0">{{ forloop.counter }}.</p>
+                </td>
+                <td>
+                    <p class="mb-0">{{ order.food.title }}</p>
+                </td>
+                <td>
+                    <p class="mb-0">{{ order.food.price }} so'm</p>
+                </td>
+                <td>
+                    <p class="mb-0">{{ order.count }}</p>
+                </td>
+                <td>
+                    <p class="mb-0">{{ order.total_price }} so'm</p>
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+    </table>
+
+</div>
+
+
+
+
+
+<div class="modal fade" id="add-order" tabindex="-1" aria-labelledby="add-productLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" enctype="multipart/form-data"> {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="add-productLabel">Buyurtma qo'shish</h5>
+                    <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{ form.as_p }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" data-mdb-ripple-init
+                        data-mdb-dismiss="modal">Bekor qilish</button>
+                    <button type="submit" class="btn btn-success" data-mdb-ripple-init>Yuborish</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

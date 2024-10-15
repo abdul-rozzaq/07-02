@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block action %}
+
+<button type="button" class="btn btn-success" data-mdb-ripple-init data-mdb-modal-init
+    data-mdb-target="#add-product">Mahsulot qo'shish</button>
+
+{% endblock action %}
+
+
+
+{% block content %}
+
+<div class="container mt-3">
+
+    <h2 class="mb-3">Taomlar</h2>
+
+    <div class="row row-cols-3 g-3">
+
+        {% for food in foods %}
+
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <img src="{{ food.image.url }}" alt="" height="350" class="w-100 mb-3 rounded"
+                        style="object-fit: cover;">
+
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h4 class="card-title mb-0">{{ food.title }}</h4>
+                        <h5 class="price fw-bold mb-0">{{ food.price }} so'm</h5>
+                    </div>
+
+                    <button class="btn btn-success w-100 py-3">Buyurtma berish</button>
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="add-product" tabindex="-1" aria-labelledby="add-productLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" enctype="multipart/form-data"> {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="add-productLabel">Yangi mahsulot qo'shish</h5>
+                    <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{ form.as_p }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" data-mdb-ripple-init
+                        data-mdb-dismiss="modal">Bekor qilish</button>
+                    <button type="submit" class="btn btn-success" data-mdb-ripple-init>Yuborish</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

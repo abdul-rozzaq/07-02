@@ -1,0 +1,87 @@
+[
+    {
+        "model": "project.food",
+        "pk": 1,
+        "fields": {
+            "image": "images/food1.jpg",
+            "title": "Burger",
+            "price": 15000
+        }
+    },
+    {
+        "model": "project.food",
+        "pk": 2,
+        "fields": {
+            "image": "images/food2.jpg",
+            "title": "Pizza",
+            "price": 20000
+        }
+    },
+    {
+        "model": "project.food",
+        "pk": 3,
+        "fields": {
+            "image": "images/food3.jpg",
+            "title": "Pasta",
+            "price": 12000
+        }
+    },
+    {
+        "model": "project.food",
+        "pk": 4,
+        "fields": {
+            "image": "images/food4.jpg",
+            "title": "Salad",
+            "price": 8000
+        }
+    },
+    {
+        "model": "project.food",
+        "pk": 5,
+        "fields": {
+            "image": "images/food5.jpg",
+            "title": "Sushi",
+            "price": 25000
+        }
+    },
+    {
+        "model": "project.order",
+        "pk": 1,
+        "fields": {
+            "food": 1,
+            "count": 2
+        }
+    },
+    {
+        "model": "project.order",
+        "pk": 2,
+        "fields": {
+            "food": 2,
+            "count": 1
+        }
+    },
+    {
+        "model": "project.order",
+        "pk": 3,
+        "fields": {
+            "food": 3,
+            "count": 3
+        }
+    },
+    {
+        "model": "project.order",
+        "pk": 4,
+        "fields": {
+            "food": 4,
+            "count": 1
+        }
+    },
+    {
+        "model": "project.order",
+        "pk": 5,
+        "fields": {
+            "food": 5,
+            "count": 4
+        }
+    }
+]
