@@ -29,8 +29,21 @@
                         <h4 class="card-title mb-0">{{ food.title }}</h4>
                         <h5 class="price fw-bold mb-0">{{ food.price }} so'm</h5>
                     </div>
+                    <div class="d-flex gap-3">
 
-                    <button class="btn btn-success w-100 py-3">Buyurtma berish</button>
+                        <button class="btn btn-success flex-grow-1 py-3" data-mdb-ripple-init data-mdb-modal-init
+                            data-mdb-target="#order-product"
+                            onclick="document.getElementById('id_food').value = {{ food.pk }};">Buyurtma berish</button>
+
+                        <button class="btn btn-warning py-3 edit-button" data-mdb-ripple-init data-mdb-modal-init
+                            data-mdb-target="#update-product" data-product-id="{{ food.pk }}"
+                            data-product-name="{{ food.title }}" data-product-price="{{ food.price }}">
+
+                            <i class="fa fa-pen"></i>
+                        </button>
+
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -52,7 +65,10 @@
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <input type="hidden" name="form-type" value="add-product">
+
                     {{ form.as_p }}
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-danger" data-mdb-ripple-init
@@ -64,5 +80,86 @@
     </div>
 </div>
 
+
+<div class="modal fade" id="order-product" tabindex="-1" aria-labelledby="order-productLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" enctype="multipart/form-data"> {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="order-productLabel">Buyurt berish</h5>
+                    <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="form-type" value="order-product">
+
+                    {{ order_form.as_p }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" data-mdb-ripple-init
+                        data-mdb-dismiss="modal">Bekor qilish</button>
+                    <button type="submit" class="btn btn-success" data-mdb-ripple-init>Yuborish</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="update-product" tabindex="-1" aria-labelledby="update-productLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" enctype="multipart/form-data"> {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="update-productLabel">Tahrirash</h5>
+                    <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="form-type" value="update-product">
+                    <input type="hidden" name="product-id" value="" id="product-id">
+
+                    {{ form.as_p }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" data-mdb-ripple-init
+                        data-mdb-dismiss="modal">Bekor qilish</button>
+                    <button type="submit" class="btn btn-warning" data-mdb-ripple-init>Yuborish</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    let nameInput = document.querySelector('#update-product #id_title');
+    let priceInput = document.querySelector('#update-product #id_price');
+    let idInput = document.querySelector('#update-product #product-id');
+
+    console.log(idInput);
+    console.log(nameInput);
+    console.log(priceInput);
+
+    document.querySelectorAll('.edit-button').forEach(el => {
+        el.addEventListener('click', (e) => {
+            let target = el;
+
+            let id = el.getAttribute('data-product-id');
+            let name = el.getAttribute('data-product-name');
+            let price = el.getAttribute('data-product-price');
+
+            console.log(id, name, price);
+
+            idInput.value = id;
+            nameInput.value = name;
+            priceInput.value = price;
+
+
+        });
+    });
+
+</script>
 
 {% endblock content %}

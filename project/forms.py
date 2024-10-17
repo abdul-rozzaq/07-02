@@ -4,40 +4,13 @@ from django import forms
 from .models import Food
 
 
-class FoodForm(forms.Form):
-    image = forms.ImageField(label="Mahsulot rasmi", required=True)
-    title = forms.CharField(max_length=128, label="Nomi")
-    price = forms.IntegerField(label="Narxi")
+class FoodForm(forms.ModelForm):
 
-    def __init__(self, *args, **kwargs) -> None:
-        instance = kwargs.pop("instance", None)
-        super().__init__(*args, **kwargs)
+    image = forms.ImageField(widget=forms.FileInput(attrs={"accept": "image/*"}), required=False)
 
-        if instance:
-            self.fields["image"].required = False
-
-        for field_name, field in self.fields.items():
-            field.widget.attrs = {"class": "form-control"}
-
-    def create(self):
-
-        return Food.objects.create(**self.cleaned_data)
-
-    def update(self, instance: Food):
-        instance.title = self.cleaned_data["title"]
-        instance.price = self.cleaned_data["price"]
-
-        if self.cleaned_data.get("image"):
-            instance.image = self.cleaned_data["image"]
-
-        instance.save()
-
-        return instance
-
-
-class OrderForm(forms.Form):
-    food = forms.ModelChoiceField(queryset=Food.objects.all(), label="Mahsulot")
-    count = forms.IntegerField(label="Soni")
+    class Meta:
+        model = Food
+        fields = "__all__"
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -45,13 +18,14 @@ class OrderForm(forms.Form):
         for field_name, field in self.fields.items():
             field.widget.attrs = {"class": "form-control"}
 
-    def clean_count(self):
-        count = self.cleaned_data.get("count", -1)
 
-        if count <= 0:
-            raise ValueError("Mahsulot soni 0 dan katta bo'lishi kerak")
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = "__all__"
 
-        return count
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
 
-    def create(self):
-        return Order.objects.create(**self.cleaned_data)
+        for field_name, field in self.fields.items():
+            field.widget.attrs = {"class": "form-control"}
